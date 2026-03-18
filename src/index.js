@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const { GoogleAuth } = require('googleapis/build/src/auth/googleauth');
+const { google } = require('googleapis');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -42,7 +42,7 @@ async function getFCMAccessToken(credentials) {
 
   console.log(`[Auth] Yeni token alınıyor: ${projectId}`);
 
-  const auth = new GoogleAuth({
+  const auth = new google.auth.GoogleAuth({
     credentials: {
       client_email: credentials.client_email,
       private_key: credentials.private_key.replace(/\\n/g, '\n'),
