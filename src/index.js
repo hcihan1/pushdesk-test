@@ -91,7 +91,7 @@ async function sendFCMPush({ credentials, notification, target }) {
         default_vibrate_timings: true,
         notification_priority: 'PRIORITY_HIGH',
         visibility: 'PUBLIC',
-        ...(notification.imageUrl && { image_url: notification.imageUrl }),
+        ...(notification.imageUrl && { image: notification.imageUrl }),
       },
     },
     apns: {
