@@ -68,10 +68,23 @@ async function sendFCMPush({ credentials, notification, target }) {
   // Hepsini dolduruyoruz.
 
   const dataPayload = {};
+
+  // Tek gorsel (Android + iOS)
   if (notification.imageUrl) {
     dataPayload['imageUrl'] = notification.imageUrl;
     dataPayload['image'] = notification.imageUrl;
   }
+
+  // Coklu gorsel — iOS NotificationServiceExtension "images" key'ini JSON string olarak okuyor
+  // FCM data alani sadece string kabul ettiginden JSON.stringify yapiyoruz
+  if (notification.images && Array.isArray(notification.images) && notification.images.length > 0) {
+    dataPayload['images'] = JSON.stringify(notification.images);
+    if (!notification.imageUrl) {
+      dataPayload['imageUrl'] = notification.images[0];
+      dataPayload['image'] = notification.images[0];
+    }
+  }
+
   if (notification.deeplink) {
     dataPayload['url'] = notification.deeplink;
     dataPayload['deeplink'] = notification.deeplink;
